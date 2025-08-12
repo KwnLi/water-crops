@@ -20,8 +20,7 @@ pa.counties <- counties %>% filter(STATEFP==42)
 ws.pa <- ws.all %>% filter(states == "PA") %>% st_join(counties) %>%
   group_by(huc12) %>% mutate(n=n()) %>% ungroup() %>% filter(n == 1) # filter only watersheds within 1 county
 
-# write.csv(ws.pa %>% sf::st_drop_geometry(), "data/pa-ws.csv",
-#           row.names = FALSE)
+# saveRDS(ws.pa %>% sf::st_drop_geometry(), "data/pa-ws.rds")
 ```
 
 ## selected watersheds
