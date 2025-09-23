@@ -1,0 +1,12 @@
+'''Soil parameter file
+For ID = ec5
+'''
+
+SMFCF = 0.528
+SM0 = 0.63
+SMW = 0.444
+CRAIRC = 0.04
+SOPE = 0.55
+KSUB = 0.37
+RDMSOL = 110
+SOLNAM = "ec5"

@@ -50,7 +50,7 @@ agro.soy <- pcse$input$YAMLAgroManagementReader("data/soy.agro")
 siteparam <- pcse$input$WOFOST72SiteDataProvider(WAV=10)
 
 hupa <- readRDS("data/pa-ws.rds")
-gridIDs <- readRDS("data/gridIDs.rds")
+# gridIDs <- readRDS("data/gridIDs.rds")
 
 # crop data provider
 cropparam <- pcse$input$YAMLCropDataProvider()
@@ -67,13 +67,20 @@ for(i in seq_len(nrow(hupa))){
 
   hu.mukey <- terra::rast(paste0("data-raw/wofost/soil/mukey_",hu.i,".tif")) |>
     terra::project(crs(lu.cornsoy), method = "near") |>
-    terra::resample(lu.cornsoy) |>
-    terra::crop(lu.cornsoy) |> terra::mask(lu.cornsoy)
+    terra::resample(lu.cornsoy)
+    # terra::crop(lu.cornsoy) |> terra::mask(lu.cornsoy)
+
+  gridmet.id <- terra::rast(paste0("data-raw/wofost/weather/weatherID_",hu.i,".tif")) |>
+    terra::resample(lu.cornsoy |>
+                      terra::project(crs(terra::rast(paste0("data-raw/wofost/weather/weatherID_",hu.i,".tif")))),
+                    method = "near") |>  # match resolution
+    terra::project(crs(lu.cornsoy), method = "near") |>
+    terra::resample(lu.cornsoy, method = "near")
 
   lu.cornsoy$mukey <- terra::ifel(!is.na(lu.cornsoy), hu.mukey, NA)
+  lu.cornsoy$grid.ids <- terra::ifel(!is.na(lu.cornsoy), gridmet.id, NA)
 
   hu.cornsoy <- terra::values(lu.cornsoy) |> as.data.frame() |>
-    dplyr::left_join(gridIDs[[hu.i]]) |>
     dplyr::group_by(crop,mukey,grid.ids) |> dplyr::summarize(n=dplyr::n(),.groups = "drop") |>
     dplyr::filter(!is.na(crop))
 
@@ -84,7 +91,12 @@ for(i in seq_len(nrow(hupa))){
     hu.corn.g <- hu.corn[g,]
 
     # load WOFOST soil file
-    cornsoil <- pcse$input$PCSEFileReader(paste0("data/soil/mukey",hu.corn.g$mukey,".pcse"))
+    cornsoil.file <- paste0("data/soil/mukey",hu.corn.g$mukey,".pcse")
+    if(!file.exists(cornsoil.file)) next  # if this file doesn't exist, skip
+
+    tryCatch({
+      cornsoil <- pcse$input$PCSEFileReader(cornsoil.file)
+    }, error = function(e){cat("ERROR :", hu.i, hu.corn.g$mukey, conditionMessage(e), "\n")})
 
     # load weather file
     cornweather <- pcse$input$CSVWeatherDataProvider(
@@ -96,13 +108,23 @@ for(i in seq_len(nrow(hupa))){
     # Load parameters into the model engine
     cornwofost <- pcse$models$Wofost72_WLP_CWB(cornparam, cornweather, agro.corn)
 
+    # potential production
+    cornpp <- pcse$models$Wofost72_PP(cornparam, cornweather, agro.corn)
+
     # run WOFOST
     cornwofost$run_till_terminate()
+    cornpp$run_till_terminate()
 
     # get output
     corn.output <- cornwofost$get_output()
+    cornpp.output <- cornpp$get_output()
 
-    hu.corn.wofost[[as.character(hu.corn.g$mukey)]] <- lapply(corn.output, dplyr::bind_cols) |> dplyr::bind_rows()
+    hu.corn.wofost[[paste0(hu.corn.g$mukey,"_",hu.corn.g$grid.ids)]] <- lapply(corn.output, dplyr::bind_cols) |>
+      dplyr::bind_rows() |>
+      dplyr::left_join(
+        lapply(cornpp.output, dplyr::bind_cols) |> dplyr::bind_rows(),
+        by = "day", suffix = c(".WL", ".PP")
+      )
   }
 
   # run soy simulations in WOFOST
@@ -112,7 +134,13 @@ for(i in seq_len(nrow(hupa))){
     hu.soy.h <- hu.soy[h,]
 
     # load WOFOST soil file
-    soysoil <- pcse$input$PCSEFileReader(paste0("data/soil/mukey",hu.soy.h$mukey,".pcse"))
+    soysoil.file <- paste0("data/soil/mukey",hu.soy.h$mukey,".pcse")
+    if(!file.exists(soysoil.file)) next  # if this file doesn't exist, skip
+
+    tryCatch({
+      soysoil <- pcse$input$PCSEFileReader(soysoil.file)
+    }, error = function(e){cat("ERROR :", hu.i, hu.soy.h$mukey, conditionMessage(e), "\n")})
+
 
     # load weather file
     soyweather <- pcse$input$CSVWeatherDataProvider(
@@ -124,13 +152,23 @@ for(i in seq_len(nrow(hupa))){
     # Load parameters into the model engine
     soywofost <- pcse$models$Wofost72_WLP_CWB(soyparam, soyweather, agro.soy)
 
+    # potential production
+    soypp <- pcse$models$Wofost72_PP(soyparam, soyweather, agro.soy)
+
     # run WOFOST
     soywofost$run_till_terminate()
+    soypp$run_till_terminate()
 
     # get output
     soy.output <- soywofost$get_output()
+    soypp.output <- soypp$get_output()
 
-    hu.soy.wofost[[as.character(hu.soy.h$mukey)]] <- lapply(soy.output, dplyr::bind_cols) |> dplyr::bind_rows()
+    hu.soy.wofost[[paste0(hu.soy.h$mukey,"_",hu.soy.h$grid.ids)]] <- lapply(soy.output, dplyr::bind_cols) |>
+      dplyr::bind_rows() |>
+      dplyr::left_join(
+        lapply(soypp.output, dplyr::bind_cols) |> dplyr::bind_rows(),
+        by = "day", suffix = c(".WL", ".PP")
+      )
   }
 
   # combine results for hu.i
@@ -147,5 +185,9 @@ for(i in seq_len(nrow(hupa))){
 }
 
 # make data into dataframe
-wofost.out <- dplyr::bind_rows(wofost.out, .id = "huc12")
-cornsoy.id <- dplyr::bind_rows(cornsoy.id, .id = "huc12")
+wofost.outdf <- dplyr::bind_rows(wofost.out, .id = "huc12") |> dplyr::rename(mukey_gridid = mukey)
+cornsoy.iddf <- dplyr::bind_rows(cornsoy.id, .id = "huc12")
+
+saveRDS(wofost.outdf |> dplyr::filter(crop=="corn"), "PA_wofost_corn.rds")
+saveRDS(wofost.outdf |> dplyr::filter(crop=="soybeans"), "PA_wofost_soy.rds")
+saveRDS(cornsoy.iddf, "PA_cornsoyIDs.rds")

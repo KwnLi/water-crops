@@ -1,0 +1,12 @@
+'''Soil parameter file
+For ID = sr1
+'''
+
+SMFCF = 0.148
+SM0 = 0.371
+SMW = 0.03
+CRAIRC = 0.09
+SOPE = 12.47
+KSUB = 24.03
+RDMSOL = 110
+SOLNAM = "sr1"

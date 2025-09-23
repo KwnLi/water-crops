@@ -1,0 +1,255 @@
+---
+title: "Potential and water-limited corn and soy production, compared to the 2022 Agricultural Census"
+format: pdf
+---
+
+_Updated for Aug. 20, 2025_
+
+## Corn and soy production in some PA counties
+
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+
+library(tidyverse)
+library(sf)
+library(knitr)
+
+corn <- readRDS("PA_wofost_corn.rds")
+soy <- readRDS("PA_wofost_soy.rds")
+ids <- readRDS("PA_cornsoyIDs.rds")
+paws <- readRDS("data/pa-ws.rds")
+pacensus <- read.csv("data/pa2022census.csv")
+```
+
+Watersheds
+
+```{r}
+#| message: false
+#| echo: false
+kable(paws |> select(name,huc12,NAME) |> rename(county = NAME),
+      digits = 2)
+
+```
+
+### Example yield plots: North Branch Two Lick Creek-Two Lick Creek
+
+These curves show yield (TWSO) development for unique combinations of soil map units (mukey) and gridMET cells that had cultivation in them. TWSO is [total weight storage organs](https://github.com/ClimateEcology/rPCSE?tab=readme-ov-file#total-weight-storage-organs) and is in kg/ha.
+
+TWSO is modeled using the water limited (WL) and potential production (PP) models of WOFOST.
+
+#### Corn
+
+```{r}
+#| echo: false
+#| warning: false
+
+hu <- paws$huc12[1]
+
+corn.twso <- corn %>%
+  pivot_longer(cols=DVS.WL:SM.PP, names_sep = "\\.", 
+               names_to = c("OUTSTAT","MODEL")) %>%
+  filter(OUTSTAT=="TWSO") %>% rename(TWSO = "value")
+
+ggplot(corn.twso %>% filter(huc12==hu), 
+       aes(day, TWSO, group = mukey_gridid)) + 
+  geom_line(aes(color = mukey_gridid)) + facet_grid(~MODEL) +
+  theme(legend.position = "none")
+
+```
+
+#### Soy
+
+```{r}
+#| echo: false
+#| warning: false
+
+soy.twso <- soy %>%
+  pivot_longer(cols=DVS.WL:SM.PP, names_sep = "\\.", 
+               names_to = c("OUTSTAT","MODEL")) %>%
+  filter(OUTSTAT=="TWSO") %>% rename(TWSO = "value")
+
+ggplot(soy.twso %>% filter(huc12==hu), aes(day, TWSO, group = mukey_gridid)) + 
+  geom_line(aes(color = mukey_gridid)) + facet_grid(~MODEL) +
+  theme(legend.position = "none")
+
+```
+
+### Calculated harvest for each watershed
+
+The 'total.area' value in the following two tables are the number of cultivated pixels according to the crop sequence boundary. Pixels are 30x30m = 900 sqm. The 'wt.TWSO' value is a weighted average of TWSO at harvest time across the cultivated pixels in the watershed. The weighting is by the number of pixels for each modeled yield value (i.e., the curves shown in the last section).
+
+I used conversion factors [here](https://ers.usda.gov/sites/default/files/_laserfiche/publications/41880/33132_ah697_002.pdf?v=69466) to convert from kg to bushels for corn and soy. These values were 1 kg corn = 0.039368 bushel and 1 kg soy = 0.0367437 bushel. The conversion from pixel to acre was 1 ha = 2.47105 acre.
+
+
+#### Corn harvest
+
+\small
+
+```{r}
+#| echo: false
+
+corn.harvest <- corn.twso %>% filter(MODEL == "WL") %>%
+  group_by(huc12, mukey_gridid) %>% 
+  mutate(harvest = !is.na(TWSO) & TWSO>0 & is.na(lead(TWSO,order_by = day))) %>%
+  ungroup() %>% filter(harvest==TRUE, lubridate::year(day)==2022)
+
+corn.pp.harvest <- corn.twso %>% filter(MODEL == "PP") %>%
+  group_by(huc12, mukey_gridid) %>% 
+  mutate(harvest = !is.na(TWSO) & TWSO>0 & is.na(lead(TWSO,order_by = day))) %>%
+  ungroup() %>% filter(harvest==TRUE, lubridate::year(day)==2022)
+
+corn.match <- ids %>% filter(crop==1) %>% select(-crop) %>%
+  mutate(mukey_gridid = paste0(mukey,"_",grid.ids)) %>%
+  left_join(corn.harvest %>% select(-MODEL,-OUTSTAT),
+            by = c("huc12", "mukey_gridid")) %>%
+  left_join(corn.pp.harvest %>% select(-MODEL,-OUTSTAT,-crop),
+            by = c("huc12", "mukey_gridid"),
+            suffix = c(".WL",".PP")) %>%
+  filter(!is.na(TWSO.WL)) %>%
+  group_by(huc12) %>% mutate(total.n = sum(n)) %>%
+  summarize(
+    total.area = mean(total.n),
+    wt.TWSO.WL = sum((n*TWSO.WL)/total.n),
+    wt.TWSO.PP = sum((n*TWSO.PP)/total.n),
+    .groups = "drop"
+  ) %>%
+  mutate(bushel.acre.WL = wt.TWSO.WL*0.039368/2.47105,
+         bushel.acre.PP = wt.TWSO.PP*0.039368/2.47105)
+
+kable(corn.match, digits = 2)
+
+```
+#### Soybean harvest
+
+```{r}
+#| echo: false
+
+soy.harvest <- soy.twso %>% filter(MODEL == "WL") %>%
+  group_by(huc12, mukey_gridid) %>% 
+  mutate(harvest = !is.na(TWSO) & TWSO>0 & is.na(lead(TWSO,order_by = day))) %>%
+  ungroup() %>% filter(harvest==TRUE, lubridate::year(day)==2022)
+
+soy.pp.harvest <- soy.twso %>% filter(MODEL == "PP") %>%
+  group_by(huc12, mukey_gridid) %>% 
+  mutate(harvest = !is.na(TWSO) & TWSO>0 & is.na(lead(TWSO,order_by = day))) %>%
+  ungroup() %>% filter(harvest==TRUE, lubridate::year(day)==2022)
+
+soy.match <- ids %>% filter(crop==1) %>% select(-crop) %>%
+  mutate(mukey_gridid = paste0(mukey,"_",grid.ids)) %>%
+  left_join(soy.harvest %>% select(-MODEL,-OUTSTAT),
+            by = c("huc12", "mukey_gridid")) %>%
+  left_join(soy.pp.harvest %>% select(-MODEL,-OUTSTAT,-crop),
+            by = c("huc12", "mukey_gridid"),
+            suffix = c(".WL",".PP")) %>%
+  filter(!is.na(TWSO.WL)) %>%
+  group_by(huc12) %>% mutate(total.n = sum(n)) %>%
+  summarize(
+    total.area = mean(total.n),
+    wt.TWSO.WL = sum((n*TWSO.WL)/total.n),
+    wt.TWSO.PP = sum((n*TWSO.PP)/total.n),
+    .groups = "drop"
+  ) %>%
+  mutate(bushel.acre.WL = wt.TWSO.WL*0.0367437/2.47105,
+         bushel.acre.PP = wt.TWSO.PP*0.0367437/2.47105)
+
+kable(soy.match, digits = 2)
+
+```
+
+\normalsize
+
+### Compare to census
+
+#### Census data
+
+Bushels per acre for each county was calculated by dividing the harvested quantity by harvested acres in the county for 2022, from the [ag census](https://www.nass.usda.gov/Publications/AgCensus/2022/Full_Report/Volume_1,_Chapter_2_County_Level/Pennsylvania/st42_2_025_025.pdf).
+
+```{r}
+#| echo: false
+
+co.yields <- pacensus %>% 
+  mutate(corn.census = corn2022bushels/corn2022acres,
+         soy.census = soy2022bushels/soy2022acres)
+
+knitr::kable(co.yields %>% dplyr::select(county, corn.census, soy.census), digits = 2)
+
+```
+
+#### Comparisons to model
+
+```{r}
+#| echo: false
+
+yieldCompare <- paws |> select(name,huc12,NAME) |> 
+  rename(county = NAME) |>
+  left_join(corn.match |> select(huc12,bushel.acre.WL,
+                                 bushel.acre.PP) |>
+              rename(corn.WL = bushel.acre.WL,
+                     corn.PP = bushel.acre.PP), 
+            by = "huc12") |>
+  left_join(soy.match |> select(huc12,bushel.acre.WL,
+                                 bushel.acre.PP) |>
+              rename(soy.WL = bushel.acre.WL,
+                     soy.PP = bushel.acre.PP), 
+            by = "huc12") |>
+  left_join(co.yields |> select(county,corn.census,soy.census), by = "county")
+
+```
+
+#### Comparing water limited (WL) to census yields
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+library(ggpmisc)
+
+yieldCompareLong <- yieldCompare |> 
+  pivot_longer(corn.WL:soy.PP,
+               names_to = c("crop","source"),
+               values_to = "yield",
+               names_sep = "\\.") |>
+  pivot_wider(values_from = "yield", names_from = "source") %>%
+  mutate(census = ifelse(crop=="corn", corn.census, soy.census)) %>%
+  select(-corn.census,-soy.census) %>%
+  pivot_longer(WL:PP, names_to = "model", values_to = "TWSO")
+
+ggplot(yieldCompareLong) +
+  geom_abline(slope=1,intercept = 0,linetype=2) +
+  geom_point(data = yieldCompareLong %>% filter(model=="WL"),
+             mapping = aes(census,TWSO,color=county)) + 
+  # geom_smooth(method="lm") +
+  stat_poly_line(data = yieldCompareLong %>% filter(model=="WL"),
+             mapping = aes(census,TWSO)) +
+  stat_poly_eq(data = yieldCompareLong %>% filter(model=="WL"),
+             mapping = aes(census,TWSO)) +
+  facet_wrap(~crop,scales="free") + ylab("TWSO (WL)") +
+  theme(legend.position = "bottom")
+
+```
+
+#### Comparing water limited (WL) and potential production (PP) results to census yields
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+
+ggplot(yieldCompareLong,
+       aes(census,TWSO, group = huc12, shape = model, color = county)) +
+  geom_abline(slope=1,intercept = 0,linetype=2) +
+  geom_point(position = "jitter") + geom_line() + 
+  facet_wrap(~crop, scale = "free") +
+  scale_color_discrete(guide = "none") +
+  theme(legend.position = "bottom")
+```
+
+\small
+
+```{r}
+#| echo: false
+
+knitr::kable(yieldCompare |> select(-huc12), digits = 2)
+```

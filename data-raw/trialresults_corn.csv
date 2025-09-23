@@ -1,0 +1,96 @@
+﻿Company,hybrid,traits,relativeMaturity,Centre.bshl_acr,Clinton.bshl_acr,Indiana.bshl_acr,Tioga.bshl_acr,Northumberland.bshl_acr,Lehigh.bshl_acr,Lycoming.bshl_acr,York.bshl_acr,zone,harvestType
+Augusta,Augusta 2050,32,99,170.4,199.3,176.7,162.4,,,,,1,early
+Augusta,Augusta 2250,6,99,147.7,187.4,172.9,114.1,,,,,1,early
+Augusta,Augusta 1946,6,96,146.5,171.3,189.2,150.9,,,,,1,early
+Channel,193-91VT2PRIB,31,93,145.3,177.6,173.6,139.8,,,,,1,early
+Channel,195-51STXRIB,34,95,163.3,178.9,173.9,148.9,,,,,1,early
+Channel,196-71VT2PRIB,31,96,144.4,186.0,174.3,157.3,,,,,1,early
+Channel,198-82SSPRIB,34,98,166.8,196.3,189.5,151.8,,,,,1,early
+Chemgro,5705V4Z,8,97,156.3,172.3,157.9,139.1,,,,,1,early
+Chemgro,5836RTC,33,98,142.5,203.8,169.8,157.6,,,,,1,early
+Chemgro,6029D4Z,10,100,148.0,181.2,176.1,145.6,,,,,1,early
+Hubner,H6007RCSS,34,90,145.5,162.3,157.6,141.6,,,,,1,early
+Hubner,H6134RCSS,34,96,146.8,192.5,183.4,145.9,,,,,1,early
+Hubner,H4114RC2P,31,97,154.2,187.6,161.2,160.1,,,,,1,early
+Revere,Revere 9108 VT2PRIB,31,91,152.2,166.9,175.7,154.1,,,,,1,early
+Revere,Revere 9598 5222EZ,11,95,139.2,156.6,170.0,123.9,,,,,1,early
+Revere,Revere 9796 3220EZ,8,97,152.9,192.0,171.9,159.4,,,,,1,early
+Revere,Revere 9916 VT2PRIB,31,99,152.5,189.0,156.6,144.1,,,,,1,early
+Seed Consultants,SC951AM,23,95,163.1,194.5,158.8,142.6,,,,,1,early
+Seed Consultants,SC973AM,23,97,144.8,191.2,169.4,151.3,,,,,1,early
+Growmark,FS 4927T RIB,33,99,150.2,202.3,174.2,153.0,,,,,1,early
+Augusta,1359,31,108,151.2,193.3,,,224.0,,,,2,mid
+Augusta,3655,31,105,159.6,213.7,,,224.3,,,,2,mid
+Channel,200-42VT2PRIB,31,100,162.9,196.4,,,180.7,,,,2,mid
+Channel,201-07SSPRIB,34,101,170.4,197.2,,,214.7,,,,2,mid
+Channel,203-70TRERIB,33,103,162.3,187.4,,,209.5,,,,2,mid
+Channel,206-16SSPRIB,34,106,156.3,182.3,,,207.7,,,,2,mid
+Channel,207-87VT2PRIB,31,107,160.5,215.8,,,239.0,,,,2,mid
+Chemgro,6029D4Z,10,100,148.5,183.3,,,184.8,,,,2,mid
+Chemgro,6535RDD,31,105,160.2,208.4,,,212.2,,,,2,mid
+Chemgro,6725RDP,31,107,161.8,201.0,,,192.3,,,,2,mid
+Hubner,H6358RCSS,34,103,160.2,187.6,,,213.2,,,,2,mid
+Hubner,0570S,34,105,146.6,175.4,,,217.3,,,,2,mid
+Hubner,H0881D,31,108,149.7,206.5,,,216.8,,,,2,mid
+Revere,297 VT2PRIB,31,102,157.6,199.7,,,194.0,,,,2,mid
+Revere,518 VT2PRIB,31,105,146.9,197.7,,,223.3,,,,2,mid
+Revere,707 DGVT2PRIB,31,107,150.6,198.0,,,223.5,,,,2,mid
+Seed Consultants,SC1003AM,23,100,174.1,179.2,,,202.4,,,,2,mid
+Seed Consultants,SC1042Q,36,104,158.4,213.2,,,216.1,,,,2,mid
+Seed Consultants,SC1071AM,23,107,153.1,198.6,,,227.5,,,,2,mid
+Syngenta,NK0696-5122,10,106,146.1,200.5,,,214.4,,,,2,mid
+Growmark,FS 5115X RIB,34,101,165.3,198.8,,,209.1,,,,2,mid
+Growmark,FS 5722V RIB,31,107,177.3,186.4,,,200.4,,,,2,mid
+Seed Consultants,SC1053AM,23,105,149.6,199.0,,,233.9,,,,2,mid
+Augusta,4463,31,113,,,,,,206.3,235.1,238.4,34,late
+Augusta,1964,4,114,,,,,,185.6,247.4,241.0,34,late
+Augusta,3363,31,113,,,,,,208.8,234.0,227.8,34,late
+Augusta,1465,31,115,,,,,,226.9,260.4,241.3,34,late
+Channel,210-46VT2PRIB,31,110,,,,,,229.9,270.7,243.6,34,late
+Channel,211-11VT2PRIB,31,111,,,,,,218.8,240.6,240.7,34,late
+Channel,212-52SSPRIB,34,112,,,,,,213.0,241.6,215.3,34,late
+Channel,214-22STXRIB,34,114,,,,,,216.2,234.7,239.7,34,late
+Channel,214-78DGVT2PRIB,31,114,,,,,,217.5,243.0,226.4,34,late
+Channel,217-01VT2PRIB,31,117,,,,,,212.5,246.8,227.6,34,late
+Chemgro,6929RSX,34,109,,,,,,209.1,235.2,245.3,34,late
+Chemgro,7035RDP,31,110,,,,,,205.1,225.6,238.5,34,late
+Chemgro,7335RDD,31,113,,,,,,218.9,240.0,219.4,34,late
+Chemgro,7505RDP,31,115,,,,,,207.3,253.7,234.7,34,late
+Chemgro,7525RDP,31,115,,,,,,202.2,225.4,209.1,34,late
+Hubner,H6456RCSS,34,109,,,,,,213.5,240.5,232.2,34,late
+Hubner,H09G056,31,109,,,,,,222.4,230.5,253.3,34,late
+Hubner,H6663RCSS,34,113,,,,,,223.6,264.8,244.4,34,late
+Hubner,H6763RCSS,34,115,,,,,,215.0,246.4,216.2,34,late
+Hubner,H1880D,31,118,,,,,,228.2,263.1,245.8,34,late
+Revere,918 SSXRIB,34,109,,,,,,224.6,237.1,236.1,34,late
+Revere,1398 VT2PRIB,31,113,,,,,,214.7,243.7,234.1,34,late
+Revere,1307 TCRIB,33,113,,,,,,214.3,258.8,238.9,34,late
+Revere,1525 3220EZ,8,115,,,,,,214.8,224.6,204.1,34,late
+Revere,1577 VT2PRIB,31,115,,,,,,215.8,243.2,248.5,34,late
+Revere,1707 VT2PRIB,31,117,,,,,,207.8,231.4,230.9,34,late
+Seed Consultants,SC1093AM,23,109,,,,,,226.4,247.9,239.1,34,late
+Seed Consultants,SC1112AM,23,111,,,,,,221.6,278.0,247.4,34,late
+Seed Consultants,SC1122Q,36,112,,,,,,222.8,236.1,241.4,34,late
+Seed Consultants,SC1170AM,23,117,,,,,,203.4,248.0,223.6,34,late
+Seed Consultants,SC1183AM,23,118,,,,,,203.7,254.2,222.5,34,late
+Syngenta,NK1082-5222,11,110,,,,,,212.4,258.5,246.0,34,late
+Syngenta,NK1026-5332,37,110,,,,,,209.9,219.2,237.5,34,late
+Mid-Atlantic seeds,MA8110,33,111,,,,,,210.3,254.0,244.9,34,late
+Mid-Atlantic seeds,MA8136,31,113,,,,,,218.7,241.2,243.6,34,late
+Mid-Atlantic seeds,MA5124,4,112,,,,,,200.8,224.2,248.8,34,late
+Mid-Atlantic seeds,MA8108,31,110,,,,,,213.4,229.6,228.2,34,late
+Mid-Atlantic seeds,MA8145,31,114,,,,,,222.7,256.0,244.2,34,late
+Mid-Atlantic seeds,MA8141,31,114,,,,,,207.6,235.6,229.0,34,late
+Dyna-Gro,D45TC55RIB,33,105,,,,,,222.5,258.3,232.4,34,late
+Dyna-Gro,D48VC84RIB,31,108,,,,,,210.6,231.8,235.3,34,late
+Dyna-Gro,D50VC09,31,110,,,,,,217.2,241.7,248.8,34,late
+Dyna-Gro,D52VC63,31,112,,,,,,207.1,233.7,236.2,34,late
+Dyna-Gro,D54VC34,31,114,,,,,,225.6,256.3,238.2,34,late
+Dyna-Gro,D54VC14,31,114,,,,,,207.8,244.6,245.9,34,late
+Growmark,FS 6017V RIB,31,110,,,,,,225.9,248.2,247.6,34,late
+Growmark,FS 6121X RIB,34,111,,,,,,214.1,241.4,213.6,34,late
+Growmark,FS 6202V RIB,31,112,,,,,,214.3,237.1,229.5,34,late
+Growmark,FS 6306T RIB,33,113,,,,,,218.5,254.7,240.9,34,late
+Growmark,FS 6424V RIB,31,114,,,,,,229.3,245.2,243.3,34,late
+Growmark,FS 6595V RIB,31,115,,,,,,210.5,225.3,231.1,34,late
+Growmark,FS 6818V RIB,31,118,,,,,,211.3,225.3,219.8,34,late

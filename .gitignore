@@ -6,3 +6,5 @@
 /.quarto/
 
 .DS_Store
+
+/results-raw/

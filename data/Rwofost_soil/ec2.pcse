@@ -1,0 +1,12 @@
+'''Soil parameter file
+For ID = ec2
+'''
+
+SMFCF = 0.272
+SM0 = 0.39
+SMW = 0.099
+CRAIRC = 0.075
+SOPE = 1.32
+KSUB = 2.05
+RDMSOL = 110
+SOLNAM = "ec2"

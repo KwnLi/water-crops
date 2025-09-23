@@ -1,0 +1,43 @@
+---
+title: "Sensitivity Analysis"
+format: html
+---
+
+```{r}
+library(tidyverse)
+
+```
+
+## Weather values
+
+### Finding a central value
+
+```{r}
+weathermns <- read.csv("data/weathergrid.csv")
+
+midgrid <- weathermns$gridid[which(weathermns$distCenter==min(weathermns$distCenter))]
+
+ggplot(weathermns, aes(Tmn, RAINmn, color = distCenter)) + geom_point() +
+  scale_color_continuous(type = "viridis", direction=-1) +
+  geom_point(data=weathermns |> dplyr::summarize(Tmn=mean(Tmn), RAINmn = mean(RAINmn)), color="red")
+
+```
+
+### Bumping up and down the most central grid data
+
+```{r bump}
+
+bumpsmns.df <- read.csv("data/weathergridmns.csv")
+
+ggplot(weathermns, aes(Tmn, RAINmn, color = distCenter)) + geom_point() +
+  scale_color_continuous(type = "viridis", direction=-1) +
+  geom_point(data=weathermns |> dplyr::summarize(Tmn=mean(Tmn), RAINmn = mean(RAINmn)), color="red") +
+  geom_point(data=bumpsmns.df, color="black", pch=1)
+
+```
+
+Lower rain values of the grid are compressed because days resulting in negative amounts of rain were replaced with 0.
+
+```{r models}
+
+```

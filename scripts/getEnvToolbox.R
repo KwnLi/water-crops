@@ -81,14 +81,14 @@ for(i in 1:nrow(hupa)){
   hu.name <- hu.i$huc12
 
   hu.gridmet <- getGrid_climate(vct=hu.i,
-                               from.when = "2020-01-01", to.when = "2022-12-31",
+                               from.when = "2020-01-01", to.when = "2023-12-31",
                                index = "gridMET", period = "daily",
                                by=by, verbose=FALSE, showPB = TRUE)
 
   saveRDS(hu.gridmet, paste0(parentdir, "weather/gridmet.rds"))
 
   terra::writeRaster(hu.gridmet[[1]], paste0(parentdir, "weather/weatherID_",
-                                            hu.name,".tif"))
+                                            hu.name,".tif"), overwrite = TRUE)
 
   write.csv(hu.gridmet[[2]],
             paste0(parentdir, "weather/gridmet_",hu.name,".csv"), row.names = FALSE)
