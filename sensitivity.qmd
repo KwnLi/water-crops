@@ -1,9 +1,17 @@
 ---
 title: "Sensitivity Analysis"
 format: html
+execute: 
+  freeze: true
 ---
 
+_Updated September 24, 2025_
+
 ```{r}
+#| echo: false
+#| warning: false
+#| message: false
+
 library(tidyverse)
 
 ```
@@ -13,6 +21,10 @@ library(tidyverse)
 ### Finding a central value
 
 ```{r}
+#| echo: false
+#| warning: false
+#| message: false
+
 weathermns <- read.csv("data/weathergrid.csv")
 
 midgrid <- weathermns$gridid[which(weathermns$distCenter==min(weathermns$distCenter))]
@@ -26,6 +38,9 @@ ggplot(weathermns, aes(Tmn, RAINmn, color = distCenter)) + geom_point() +
 ### Bumping up and down the most central grid data
 
 ```{r bump}
+#| echo: false
+#| warning: false
+#| message: false
 
 bumpsmns.df <- read.csv("data/weathergridmns.csv")
 
@@ -38,6 +53,51 @@ ggplot(weathermns, aes(Tmn, RAINmn, color = distCenter)) + geom_point() +
 
 Lower rain values of the grid are compressed because days resulting in negative amounts of rain were replaced with 0.
 
-```{r models}
+## Results
+
+```{r models_results}
+#| echo: false
+#| warning: false
+#| message: false
+
+corn.harvest <- readRDS("results/sensitivity_corn.rds") %>%
+  left_join(bumpsmns.df %>% mutate(deltaT = as.character(deltT),
+                                   deltaRAIN = as.character(deltR)))
+
+soy.harvest <- readRDS("results/sensitivity_soy.rds") %>%
+  left_join(bumpsmns.df %>% mutate(deltaT = as.character(deltT),
+                                   deltaRAIN = as.character(deltR)))
+
+```
+
+### Corn harvest results
+
+```{r corn_harvest}
+#| echo: false
+#| warning: false
+#| message: false
+#| fig-height: 10
+#| fig-width: 8
+
+ggplot(corn.harvest %>% filter(MODEL == "WL"), aes(Tmn, bshl_acr)) +
+  geom_line(aes(color = deltaRAIN)) + scale_color_brewer(type="div",palette = "Spectral") + 
+  geom_line(data=corn.harvest %>% filter(MODEL == "PP",deltaRAIN=="0"),color="grey",lty=2) + 
+  facet_wrap(~soil, ncol=3) + egg::theme_article()
+
+```
+
+### Soy harvest results
+
+```{r soy_harvest}
+#| echo: false
+#| warning: false
+#| message: false
+#| fig-height: 10
+#| fig-width: 8
+
+ggplot(soy.harvest %>% filter(MODEL == "WL"), aes(Tmn, bshl_acr)) +
+  geom_line(aes(color = deltaRAIN)) + scale_color_brewer(type="div",palette = "Spectral") + 
+  geom_line(data=soy.harvest %>% filter(MODEL == "PP",deltaRAIN=="0"),color="grey",lty=2) + 
+  facet_wrap(~soil, ncol=3) + egg::theme_article()
 
 ```

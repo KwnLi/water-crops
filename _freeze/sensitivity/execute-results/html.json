@@ -1,0 +1,17 @@
+{
+  "hash": "59fc029b39f0c6a5abc8800b8ca30af7",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: \"Sensitivity Analysis\"\nformat: html\nexecute: \n  freeze: true\n---\n\n_Updated September 24, 2025_\n\n\n::: {.cell}\n\n:::\n\n\n## Weather values\n\n### Finding a central value\n\n\n::: {.cell}\n::: {.cell-output-display}\n![](sensitivity_files/figure-html/unnamed-chunk-2-1.png){width=672}\n:::\n:::\n\n\n### Bumping up and down the most central grid data\n\n\n::: {.cell}\n::: {.cell-output-display}\n![](sensitivity_files/figure-html/bump-1.png){width=672}\n:::\n:::\n\n\nLower rain values of the grid are compressed because days resulting in negative amounts of rain were replaced with 0.\n\n## Results\n\n\n::: {.cell}\n\n:::\n\n\n### Corn harvest results\n\n\n::: {.cell}\n::: {.cell-output-display}\n![](sensitivity_files/figure-html/corn_harvest-1.png){width=768}\n:::\n:::\n\n\n### Soy harvest results\n\n\n::: {.cell}\n::: {.cell-output-display}\n![](sensitivity_files/figure-html/soy_harvest-1.png){width=768}\n:::\n:::\n\n",
+    "supporting": [
+      "sensitivity_files"
+    ],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

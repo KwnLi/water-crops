@@ -1,6 +1,7 @@
 ---
 title: "Potential and water-limited corn and soy production of different varieties, compared to the 2022 Agricultural Census"
-format: pdf
+execute: 
+  freeze: true
 ---
 
 _Updated for Sep. 10, 2025_
@@ -16,8 +17,8 @@ library(tidyverse)
 library(sf)
 library(knitr)
 
-corn <- readRDS("PA_wofost_corn_var.rds")
-soy <- readRDS("PA_wofost_soy_var.rds")
+corn <- readRDS("results-raw/PA_wofost_corn_var.rds")
+soy <- readRDS("results-raw/PA_wofost_soy_var.rds")
 ids <- readRDS("PA_cornsoyIDs_var.rds")
 paws <- readRDS("data/pa-ws.rds")
 pacensus <- read.csv("data/pa2022census.csv")

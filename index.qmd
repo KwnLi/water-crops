@@ -1,18 +1,26 @@
 ---
-title: "water-crops"
+title: "Selected watersheds"
 ---
 
 ```{r}
+#| echo: false
+#| warning: false
+#| message: false
+#| results: hide
+
 gitdir <- "/Users/kevinl/Documents/GitHub/"
 devtools::load_all(paste0(gitdir,"optimEcoServices"))
 devtools::load_all(paste0(gitdir,"rPCSE"))
 library(sf)
 library(tidyverse)
+
 ```
 
-## select watersheds
-
 ```{r}
+#| echo: false
+#| warning: false
+#| message: false
+#| results: hide
 ws.all <- sf::st_read("data/hu12watersheds.gpkg")
 
 pa.counties <- counties %>% filter(STATEFP==42)
@@ -28,21 +36,19 @@ ws.pa <- ws.all %>% filter(states == "PA") %>% st_join(counties) %>%
 ### map
 
 ```{r}
+#| echo: false
+#| warning: false
+#| message: false
 
 ggplot(pa.counties) + geom_sf() + geom_sf(data = ws.pa, fill = "maroon")
 
 ```
 
-### size
+### Distribution of watershed sizes
 
 ```{r}
 ggplot(ws.pa, aes(areasqkm)) + geom_histogram(, bins = 20)
 
 ```
 
-### size
-
-```{r}
-ggplot(ws.pa, aes(areasqkm)) + geom_histogram(, bins = 20)
-
-```
+### 

@@ -1,9 +1,10 @@
 ---
 title: "Potential and water-limited corn and soy production, compared to the 2022 Agricultural Census"
-format: pdf
+execute: 
+  freeze: true
 ---
 
-_Updated for Aug. 20, 2025_
+*Updated for Aug. 20, 2025*
 
 ## Corn and soy production in some PA counties
 
@@ -16,8 +17,8 @@ library(tidyverse)
 library(sf)
 library(knitr)
 
-corn <- readRDS("PA_wofost_corn.rds")
-soy <- readRDS("PA_wofost_soy.rds")
+corn <- readRDS("results-raw/PA_wofost_corn.rds")
+soy <- readRDS("results-raw/PA_wofost_soy.rds")
 ids <- readRDS("PA_cornsoyIDs.rds")
 paws <- readRDS("data/pa-ws.rds")
 pacensus <- read.csv("data/pa2022census.csv")
@@ -82,7 +83,6 @@ The 'total.area' value in the following two tables are the number of cultivated 
 
 I used conversion factors [here](https://ers.usda.gov/sites/default/files/_laserfiche/publications/41880/33132_ah697_002.pdf?v=69466) to convert from kg to bushels for corn and soy. These values were 1 kg corn = 0.039368 bushel and 1 kg soy = 0.0367437 bushel. The conversion from pixel to acre was 1 ha = 2.47105 acre.
 
-
 #### Corn harvest
 
 \small
@@ -121,6 +121,7 @@ corn.match <- ids %>% filter(crop==1) %>% select(-crop) %>%
 kable(corn.match, digits = 2)
 
 ```
+
 #### Soybean harvest
 
 ```{r}

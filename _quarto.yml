@@ -1,5 +1,19 @@
 project:
   title: "water-crops"
+  type: website
+  output-dir: docs
+
+website:
+  title: "Model crops"
+  navbar:
+    left:
+      - href: index.qmd
+        text: "Home"
+      - href: cornsoyyield.qmd
+        text: "Corn & Soy"
+      - href: var_yields.qmd
+        text: "Varieties"
+      - sensitivity.qmd
 
 editor: visual
 

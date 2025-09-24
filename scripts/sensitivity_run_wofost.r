@@ -1,6 +1,4 @@
 library(reticulate)
-library(sf)
-library(terra)
 # remotes::install_github("ClimateEcology/optimEcoServices")
 # remotes::install_github("ClimateEcology/rPCSE")
 library(rPCSE)
@@ -116,3 +114,8 @@ for(g in seq_along(soils)){
   soy.sens[[soils[g]]] <- dplyr::bind_rows(lapply(soy.sens.g, dplyr::bind_rows, .id = "deltaRAIN"), .id = "deltaT")
 }
 
+corn.sens.df <- dplyr::bind_rows(corn.sens, .id = "soil")
+soy.sens.df <- dplyr::bind_rows(soy.sens, .id = "soil")
+
+saveRDS(corn.sens.df,"results-raw/cornsensresults.rds")
+saveRDS(soy.sens.df,"results-raw/soysensresults.rds")
