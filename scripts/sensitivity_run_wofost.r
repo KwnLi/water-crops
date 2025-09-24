@@ -2,6 +2,7 @@ library(reticulate)
 # remotes::install_github("ClimateEcology/optimEcoServices")
 # remotes::install_github("ClimateEcology/rPCSE")
 library(rPCSE)
+library(Rwofost)
 
 temp.weatherfile <- "data/sensitivityweather.csv"   # this is the name of the temp weather file that will be rewritten over the loops
 
@@ -43,7 +44,7 @@ for(g in seq_along(soils)){
   soil.g <- pcse$input$PCSEFileReader(soilfile.g)
 
   # site parameters and data
-  siteparam.g <- pcse$input$WOFOST72SiteDataProvider(WAV=wofost_soil(soils[g])$WAV)
+  siteparam.g <- pcse$input$WOFOST72SiteDataProvider(WAV=Rwofost::wofost_soil(soils[g])$WAV)
 
   # crop output for soil g
   corn.sens.g <- list()

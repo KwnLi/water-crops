@@ -101,3 +101,16 @@ ggplot(soy.harvest %>% filter(MODEL == "WL"), aes(Tmn, bshl_acr)) +
   facet_wrap(~soil, ncol=3) + egg::theme_article()
 
 ```
+
+### Harvest dates
+```{r harvest_dates}
+#| echo: false
+#| warning: false
+#| message: false
+
+hdays <- bind_rows(list(corn.harvest %>% mutate(crop="maize"), soy.harvest %>% mutate(crop="soy")))
+
+ggplot(hdays, aes(Tmn,day, color=soil))+geom_line() + facet_grid(~crop)+ egg::theme_article() +
+theme(legend.position = "none")
+
+```
