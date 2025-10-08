@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Selected watersheds – Model crops</title>
+<title>Sensitivity Analysis 2: Double rain – Model crops</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -19,41 +19,6 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
-}
-/* CSS for syntax highlighting */
-html { -webkit-text-size-adjust: 100%; }
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -124,7 +89,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link active" href="./index.html" aria-current="page"> 
+    <a class="nav-link" href="./index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
@@ -140,7 +105,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span class="menu-text">Sensitivity Analysis</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./sensitivity2.html"> 
+    <a class="nav-link active" href="./sensitivity2.html" aria-current="page"> 
 <span class="menu-text">Sensitivity Analysis 2: Double rain</span></a>
   </li>  
 </ul>
@@ -160,7 +125,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Selected watersheds</h1>
+<h1 class="title">Sensitivity Analysis 2: Double rain</h1>
 </div>
 
 
@@ -177,35 +142,65 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="selected-watersheds" class="level2">
-<h2 class="anchored" data-anchor-id="selected-watersheds">selected watersheds</h2>
-<section id="map" class="level3">
-<h3 class="anchored" data-anchor-id="map">map</h3>
+<p><em>Updated October 8, 2025</em></p>
+<section id="sensitivity-analysis-grid" class="level2">
+<h2 class="anchored" data-anchor-id="sensitivity-analysis-grid">Sensitivity analysis grid</h2>
+<p>I parameterized the grid from 0.25 to 2 times the observed rain values.</p>
+<section id="bumping-up-and-down-the-most-central-grid-data" class="level3">
+<h3 class="anchored" data-anchor-id="bumping-up-and-down-the-most-central-grid-data">Bumping up and down the most central grid data</h3>
 <div class="cell">
 <div class="cell-output-display">
-<div>
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="index_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="sensitivity2_files/figure-html/bump-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>Mean temperature (x-axis) and mean rainfall (y-axis) in the observed climate data grids. Open circles represent mean parameter values in the sensitivity analysis.</figcaption>
 </figure>
 </div>
 </div>
 </div>
 </section>
-<section id="distribution-of-watershed-sizes" class="level3">
-<h3 class="anchored" data-anchor-id="distribution-of-watershed-sizes">Distribution of watershed sizes</h3>
+</section>
+<section id="results" class="level2">
+<h2 class="anchored" data-anchor-id="results">Results</h2>
+<section id="corn-harvest-results" class="level3">
+<h3 class="anchored" data-anchor-id="corn-harvest-results">Corn harvest results</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(ws.pa, <span class="fu">aes</span>(areasqkm)) <span class="sc">+</span> <span class="fu">geom_histogram</span>(, <span class="at">bins =</span> <span class="dv">20</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="index_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="sensitivity2_files/figure-html/corn_harvest-1.png" class="img-fluid figure-img" width="768"></p>
+<figcaption>Corn harvest results for different soil types. X-axis represents temperature shift while line color represents rain shift. Rain shift legend values are the magnitude difference from original observed values.</figcaption>
 </figure>
 </div>
 </div>
 </div>
 </section>
-<section id="section" class="level3">
-<h3 class="anchored" data-anchor-id="section"></h3>
+<section id="soy-harvest-results" class="level3">
+<h3 class="anchored" data-anchor-id="soy-harvest-results">Soy harvest results</h3>
+<div class="cell">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="sensitivity2_files/figure-html/soy_harvest-1.png" class="img-fluid figure-img" width="768"></p>
+<figcaption>Soy harvest results for different soil types. X-axis represents temperature shift while line color represents rain shift. Rain shift legend values are the magnitude difference from original observed values.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="harvest-dates" class="level3">
+<h3 class="anchored" data-anchor-id="harvest-dates">Harvest dates</h3>
+<p>Harvest date is determined by temperature, not rainfall</p>
+<div class="cell">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="sensitivity2_files/figure-html/harvest_dates-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>Change in harvest dates with temperature</figcaption>
+</figure>
+</div>
+</div>
+</div>
 
 
 </section>

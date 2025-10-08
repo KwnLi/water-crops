@@ -14,6 +14,7 @@ website:
       - href: var_yields.qmd
         text: "Varieties"
       - sensitivity.qmd
+      - sensitivity2.qmd
 
 editor: visual
 

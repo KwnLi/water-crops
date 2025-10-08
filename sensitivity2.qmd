@@ -1,0 +1,122 @@
+---
+title: "Sensitivity Analysis 2: Double rain"
+format: html
+execute: 
+  freeze: true
+---
+
+_Updated October 8, 2025_
+
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+
+library(tidyverse)
+
+```
+
+## Sensitivity analysis grid
+
+I parameterized the grid from 0.25 to 2 times the observed rain values.
+
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+
+weathermns <- read.csv("data/weathergrid.csv")
+
+midgrid <- weathermns$gridid[which(weathermns$distCenter==min(weathermns$distCenter))]
+
+# ggplot(weathermns, aes(Tmn, RAINmn, color = distCenter)) + geom_point() +
+#   scale_color_continuous(type = "viridis", direction=-1) +
+#   geom_point(data=weathermns |> dplyr::summarize(Tmn=mean(Tmn), RAINmn = mean(RAINmn)), color="red")
+
+```
+
+### Bumping up and down the most central grid data
+
+```{r bump}
+#| echo: false
+#| warning: false
+#| message: false
+#| fig-cap: Mean temperature (x-axis) and mean rainfall (y-axis) in the observed climate data grids. Open circles represent mean parameter values in the sensitivity analysis.
+
+bumpsmns.df <- read.csv("data/weathergridmns2.csv")
+
+ggplot(weathermns, aes(Tmn, RAINmn, color = distCenter)) + geom_point() +
+  scale_color_continuous(type = "viridis", direction=-1) +
+  geom_point(data=weathermns |> dplyr::summarize(Tmn=mean(Tmn), RAINmn = mean(RAINmn)), color="red") +
+  geom_point(data=bumpsmns.df, color="black", pch=1)
+
+```
+
+
+## Results
+
+```{r models_results}
+#| echo: false
+#| warning: false
+#| message: false
+
+corn.harvest <- readRDS("results/sensitivity_corn2.rds") %>%
+  left_join(bumpsmns.df %>% mutate(deltaT = as.character(deltT),
+                                   deltaRAIN = as.character(deltR)))
+
+soy.harvest <- readRDS("results/sensitivity_soy2.rds") %>%
+  left_join(bumpsmns.df %>% mutate(deltaT = as.character(deltT),
+                                   deltaRAIN = as.character(deltR)))
+
+```
+
+### Corn harvest results
+
+```{r corn_harvest}
+#| echo: false
+#| warning: false
+#| message: false
+#| fig-height: 10
+#| fig-width: 8
+#| fig-cap: Corn harvest results for different soil types. X-axis represents temperature shift while line color represents rain shift. Rain shift legend values are the magnitude difference from original observed values.
+
+ggplot(corn.harvest %>% filter(MODEL == "WL"), aes(Tmn, bshl_acr)) +
+  geom_line(aes(color = deltaRAIN)) + scale_color_brewer(type="div",palette = "Spectral") + 
+  geom_line(data=corn.harvest %>% filter(MODEL == "PP",deltaRAIN=="0"),color="grey",lty=2) + 
+  facet_wrap(~soil, ncol=3) + egg::theme_article()
+
+```
+
+### Soy harvest results
+
+```{r soy_harvest}
+#| echo: false
+#| warning: false
+#| message: false
+#| fig-height: 10
+#| fig-width: 8
+#| fig-cap: Soy harvest results for different soil types. X-axis represents temperature shift while line color represents rain shift. Rain shift legend values are the magnitude difference from original observed values.
+
+ggplot(soy.harvest %>% filter(MODEL == "WL"), aes(Tmn, bshl_acr)) +
+  geom_line(aes(color = deltaRAIN)) + scale_color_brewer(type="div",palette = "Spectral") + 
+  geom_line(data=soy.harvest %>% filter(MODEL == "PP",deltaRAIN=="0"),color="grey",lty=2) + 
+  facet_wrap(~soil, ncol=3) + egg::theme_article()
+
+```
+
+### Harvest dates
+
+Harvest date is determined by temperature, not rainfall
+
+```{r harvest_dates}
+#| echo: false
+#| warning: false
+#| message: false
+#| fig-cap: Change in harvest dates with temperature
+
+hdays <- bind_rows(list(corn.harvest %>% mutate(crop="maize"), soy.harvest %>% mutate(crop="soy")))
+
+ggplot(hdays, aes(Tmn,day, color=deltaRAIN))+geom_line() + facet_grid(~crop)+ egg::theme_article() +
+  scale_color_brewer(type="div",palette = "Spectral") #+ theme(legend.position = "none")
+
+```

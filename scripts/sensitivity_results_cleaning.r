@@ -1,7 +1,9 @@
 library(tidyverse)
 
-corn.sens.df <- readRDS("results-raw/cornsensresults.rds")
-soy.sens.df <- readRDS("results-raw/soysensresults.rds")
+# corn.sens.df <- readRDS("results-raw/cornsensresults.rds")
+# soy.sens.df <- readRDS("results-raw/soysensresults.rds")
+corn.sens.df <- readRDS("results-raw/cornsensresults2.rds")
+soy.sens.df <- readRDS("results-raw/soysensresults2.rds")
 
 # find peak corn
 corn.twso <- corn.sens.df %>%
@@ -29,5 +31,7 @@ soy.harvest <- soy.twso %>%
   mutate(bshl_acr = TWSO*0.0367437/2.47105)
 
 # write out results
-saveRDS(corn.harvest, "results/sensitivity_corn.rds")
-saveRDS(soy.harvest, "results/sensitivity_soy.rds")
+# saveRDS(corn.harvest, "results/sensitivity_corn.rds")
+# saveRDS(soy.harvest, "results/sensitivity_soy.rds")
+saveRDS(corn.harvest, "results/sensitivity_corn2.rds")
+saveRDS(soy.harvest, "results/sensitivity_soy2.rds")

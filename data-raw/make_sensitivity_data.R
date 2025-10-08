@@ -83,3 +83,34 @@ bumpsmns.df <- dplyr::bind_rows(bumpsmns, .id="deltT")
 write.csv(bumpsmns.df,"data/weathergridmns.csv", row.names = FALSE)
 
 saveRDS(bumps, "data/weathergrid.rds")
+
+# from quarter to double rain
+Trange <- seq(-1,1, length.out=11)
+Rrange <- seq(0.25,2, by = 0.25)
+bumps2 <- list()
+bumpsmns2 <- list()
+
+for(i in seq_along(Trange)){
+  deltT <- Trange[i]
+
+  for(j in seq_along(Rrange)){
+    deltR <- Rrange[j]
+
+    bumpdat.ij <-
+      midgrid.dat |> dplyr::mutate(TMIN = TMIN + deltT,
+                                   TMAX = TMAX + deltT,
+                                   RAIN = RAIN * deltR)
+
+    bumps2[[as.character(deltT)]][[as.character(deltR)]] <- bumpdat.ij
+
+    bumpsmns2[[as.character(deltT)]][[as.character(deltR)]] <- bumpdat.ij |>
+      dplyr::mutate(TMEAN = (TMAX+TMIN)/2) |>
+      dplyr::summarize(Tmn = mean(TMEAN), RAINmn = mean(RAIN), .groups = "drop")
+  }
+  bumpsmns2[[as.character(deltT)]] <- dplyr::bind_rows(bumpsmns2[[as.character(deltT)]], .id="deltR")
+}
+bumpsmns2.df <- dplyr::bind_rows(bumpsmns2, .id="deltT")
+write.csv(bumpsmns2.df,"data/weathergridmns2.csv", row.names = FALSE)
+
+saveRDS(bumps2, "data/weathergrid2.rds")
+

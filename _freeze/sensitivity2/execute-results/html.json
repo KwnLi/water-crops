@@ -1,0 +1,17 @@
+{
+  "hash": "eb3a2f2ade4c36744e6e9aa09bf5a61a",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: \"Sensitivity Analysis 2: Double rain\"\nformat: html\nexecute: \n  freeze: true\n---\n\n_Updated October 8, 2025_\n\n\n::: {.cell}\n\n:::\n\n\n## Sensitivity analysis grid\n\nI parameterized the grid from 0.25 to 2 times the observed rain values.\n\n\n::: {.cell}\n\n:::\n\n\n### Bumping up and down the most central grid data\n\n\n::: {.cell}\n::: {.cell-output-display}\n![Mean temperature (x-axis) and mean rainfall (y-axis) in the observed climate data grids. Open circles represent mean parameter values in the sensitivity analysis.](sensitivity2_files/figure-html/bump-1.png){width=672}\n:::\n:::\n\n\n\n## Results\n\n\n::: {.cell}\n\n:::\n\n\n### Corn harvest results\n\n\n::: {.cell}\n::: {.cell-output-display}\n![Corn harvest results for different soil types. X-axis represents temperature shift while line color represents rain shift. Rain shift legend values are the magnitude difference from original observed values.](sensitivity2_files/figure-html/corn_harvest-1.png){width=768}\n:::\n:::\n\n\n### Soy harvest results\n\n\n::: {.cell}\n::: {.cell-output-display}\n![Soy harvest results for different soil types. X-axis represents temperature shift while line color represents rain shift. Rain shift legend values are the magnitude difference from original observed values.](sensitivity2_files/figure-html/soy_harvest-1.png){width=768}\n:::\n:::\n\n\n### Harvest dates\n\nHarvest date is determined by temperature, not rainfall\n\n\n::: {.cell}\n::: {.cell-output-display}\n![Change in harvest dates with temperature](sensitivity2_files/figure-html/harvest_dates-1.png){width=672}\n:::\n:::\n\n",
+    "supporting": [
+      "sensitivity2_files"
+    ],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}
